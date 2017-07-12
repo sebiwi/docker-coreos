@@ -1,0 +1,14 @@
+---
+
+- name: Check if Swarm Mode is already activated
+  command: docker info
+  register: docker_info
+  changed_when: false
+
+- name: Create Swarm Manager Leader if it is not activated
+  command: docker swarm init --advertise-addr {{ hostvars[groups['swarm-leader'][0]]['ansible_env']['COREOS_PUBLIC_IPV4'] }}
+  when: "'Swarm: active' not in docker_info.stdout"
+
+- name: Disable Leader scheduling
+  command: docker node update --availability drain {{ groups['swarm-leader'][0] }}
+  when: "'Swarm: active' not in docker_info.stdout and disable_leader_scheduling"

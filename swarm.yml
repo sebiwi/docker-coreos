@@ -6,3 +6,9 @@
   roles:
     - role: bootstrap/ansible-bootstrap
       tags: [ ansible-bootstrap ]
+
+- name: Create Swarm Leader node
+  hosts: swarm-leader
+  roles:
+    - role: configure/swarm-leader
+      tags: [ swarm-leader ]

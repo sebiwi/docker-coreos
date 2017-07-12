@@ -1,0 +1,8 @@
+---
+
+- name: Create Manager Leader
+  include: configure.yml
+
+- name: Test Manager Leader
+  include: test.yml
+  tags: [ test ]
