@@ -1,0 +1,5 @@
+# filename: group_vars/all.yml
+---
+
+# CoreOS python location
+ansible_python_interpreter: /home/core/bin/python
