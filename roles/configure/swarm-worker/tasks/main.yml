@@ -1,0 +1,8 @@
+---
+
+- name: Create Worker nodes
+  include: configure.yml
+
+- name: Test Worker nodes
+  include: test.yml
+  tags: [ test ]

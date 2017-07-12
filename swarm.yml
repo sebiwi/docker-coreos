@@ -19,3 +19,8 @@
     - role: configure/swarm-manager
       tags: [ swarm-manager ]
 
+- name: Create Swarm Worker nodes
+  hosts: swarm-worker
+  roles:
+    - role: configure/swarm-worker
+      tags: [ swarm-worker ]

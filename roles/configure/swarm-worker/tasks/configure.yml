@@ -1,0 +1,16 @@
+---
+
+- name: Check if Swarm Mode is already activated
+  command: docker info
+  register: docker_info
+  changed_when: false
+
+- name: Recover Swarm Leader token
+  shell: docker swarm join-token worker | grep token | cut -d ' ' -f 6
+  register: worker_token
+  when: "'Swarm: active' not in docker_info.stdout"
+  delegate_to: "{{ groups['swarm-leader'][0] }}"
+
+- name: Join Swarm Cluster as Worker
+  command: docker swarm join --token {{ worker_token.stdout }} {{ hostvars[groups['swarm-leader'][0]]['ansible_env']['COREOS_PUBLIC_IPV4'] }}
+  when: "'Swarm: active' not in docker_info.stdout"

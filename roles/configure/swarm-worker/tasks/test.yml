@@ -1,0 +1,14 @@
+---
+
+- name: Check if node is Worker
+  shell: docker node ls | grep {{ ansible_hostname }}
+  register: docker_info
+  changed_when: false
+  delegate_to: "{{ groups['swarm-leader'][0] }}"
+
+- name: Fail if node is not Worker
+  assert:
+    that:
+      - "'Reachable' not in docker_info.stdout"
+      - "'Leader' not in docker_info.stdout"
+      - "'Active' in docker_info.stdout"
