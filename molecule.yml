@@ -1,0 +1,83 @@
+---
+ansible:
+  config_file: ./ansible.cfg
+  playbook: swarm.yml
+
+vagrant:
+  raw_config_args:
+    - "ssh.insert_key = false"
+
+  platforms:
+  - name: coreOS
+    box: coreos-stable
+    config.vm.box_url: https://storage.googleapis.com/stable.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json
+
+  providers:
+  - name: virtualbox
+    type: virtualbox
+    options:
+      memory: 2048
+      cpus: 1
+
+  instances:
+  - name: swarm-manager-01
+    ansible_groups:
+      - swarm-leader
+      - swarm-manager
+    interfaces:
+      - network_name: private_network
+        type: static
+        ip: 10.0.0.111
+        auto_config: true
+    options:
+      append_platform_to_hostname: no
+  - name: swarm-manager-02
+    ansible_groups:
+      - swarm-manager
+    interfaces:
+      - network_name: private_network
+        type: static
+        ip: 10.0.0.112
+        auto_config: true
+    options:
+      append_platform_to_hostname: no
+  - name: swarm-manager-03
+    ansible_groups:
+      - swarm-manager
+    interfaces:
+      - network_name: private_network
+        type: static
+        ip: 10.0.0.113
+        auto_config: true
+    options:
+      append_platform_to_hostname: no
+  - name: swarm-worker-01
+    ansible_groups:
+      - swarm-worker
+    interfaces:
+      - network_name: private_network
+        type: static
+        ip: 10.0.0.121
+        auto_config: true
+    options:
+      append_platform_to_hostname: no
+  - name: swarm-worker-02
+    ansible_groups:
+      - swarm-worker
+    interfaces:
+      - network_name: private_network
+        type: static
+        ip: 10.0.0.122
+        auto_config: true
+    options:
+      append_platform_to_hostname: no
+  - name: swarm-worker-03
+    ansible_groups:
+      - swarm-worker
+    interfaces:
+      - network_name: private_network
+        type: static
+        ip: 10.0.0.123
+        auto_config: true
+    options:
+      append_platform_to_hostname: no
