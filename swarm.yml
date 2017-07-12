@@ -12,3 +12,10 @@
   roles:
     - role: configure/swarm-leader
       tags: [ swarm-leader ]
+
+- name: Create Swarm Manager nodes
+  hosts: swarm-manager:!swarm-leader
+  roles:
+    - role: configure/swarm-manager
+      tags: [ swarm-manager ]
+

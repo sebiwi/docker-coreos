@@ -1,0 +1,12 @@
+---
+
+- name: Check if node is Manager
+  shell: docker node ls | grep {{ ansible_hostname }}
+  register: docker_info
+  changed_when: false
+
+- name: Fail if node is not Manager
+  assert:
+    that:
+      - "'Reachable' in docker_info.stdout"
+      - "'Drain' in docker_info.stdout"

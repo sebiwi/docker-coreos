@@ -1,0 +1,20 @@
+---
+
+- name: Check if Swarm Mode is already activated
+  command: docker info
+  register: docker_info
+  changed_when: false
+
+- name: Recover Swarm Leader token
+  shell: docker swarm join-token manager | grep token | cut -d ' ' -f 6
+  register: leader_token
+  when: "'Swarm: active' not in docker_info.stdout"
+  delegate_to: "{{ groups['swarm-leader'][0] }}"
+
+- name: Join Swarm Cluster as Manager
+  command: docker swarm join --token {{ leader_token.stdout }} {{ hostvars[groups['swarm-leader'][0]]['ansible_env']['COREOS_PUBLIC_IPV4'] }}
+  when: "'Swarm: active' not in docker_info.stdout"
+
+- name: Disable Manager scheduling
+  command: docker node update --availability drain {{ ansible_hostname }}
+  when: "'Swarm: active' not in docker_info.stdout and disable_manager_scheduling"

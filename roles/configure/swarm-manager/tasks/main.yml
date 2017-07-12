@@ -1,0 +1,8 @@
+---
+
+- name: Create Manager node
+  include: configure.yml
+
+- name: Test Manager node
+  include: test.yml
+  tags: [ test ]
