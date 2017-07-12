@@ -1,0 +1,8 @@
+---
+
+- name: Bootstrap coreos hosts
+  hosts: all
+  gather_facts: false
+  roles:
+    - role: bootstrap/ansible-bootstrap
+      tags: [ ansible-bootstrap ]
