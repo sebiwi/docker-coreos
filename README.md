@@ -18,4 +18,4 @@ You will need Ansible 2.2, Vagrant and Virtualbox. You will also need molecule a
 
 ## You can find the articles related to this repository below:
 
-TODO! (Coming up soon, I promise!)
+- [Swarm general architecure](https://sebiwi.github.io/how-does-it-work-docker-1/): https://sebiwi.github.io/how-does-it-work-docker-1/
